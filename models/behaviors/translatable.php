@@ -75,4 +75,25 @@ class TranslatableBehavior extends TranslateBehavior {
 		return $data;
 	}
 
+/**
+ * Set the locale attribute value of the model
+ *
+ * @param Model $Model
+ * @param mixed $all A list of language codes or a booolean.
+ *	If true the locale will be set to all available languages, if false to the current language
+ * @return void
+ */
+	public function setLocale($Model, $all = true) {
+		if (!is_bool($all)) {
+			$Model->locale = $all;
+		} elseif (!$all) {
+			$Model->locale = Configure::read('Config.locale');
+		} else {
+			$Model->locale = (array) Configure::read('Config.locales');
+			if (defined('DEFAULT_LANGUAGE')) {
+				$Model->locale[] = DEFAULT_LANGUAGE;
+			}
+		}
+	}
+
 }
