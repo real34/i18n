@@ -216,12 +216,18 @@ class i18nHelper extends AppHelper {
  * 	- buffer: true to send Js code to the Js buffer, false otherwise [default: true]
  * 	- effectIn: effect for appearing
  * 	- effectOut: effect for disappearing
+ *	- class: class of the ul wrapper
  * @return string HTML code
  */
 	public function inputSwitcher($translations = array(), $options = array()) {
 		static $L10n = null;
 
-		$_defaults = array('buffer' => true, 'effectIn' => 'slideIn', 'effectOut' => 'slideOut');
+		$_defaults = array(
+			'buffer' => true,
+			'effectIn' => 'slideIn',
+			'effectOut' => 'slideOut',
+			'class' => 'input-switcher'
+		);
 		$options = array_merge($_defaults, $options);
 
 		$langs = $this->availableLanguages();
@@ -240,7 +246,7 @@ class i18nHelper extends AppHelper {
 		$out = $script = '';
 		if (!empty($translations)) {
 			$id = String::uuid();
-			$out .= '<ul class="input-switcher" id="' . $id .'">';
+			$out .= '<ul class="' . $options['class'] . '" id="' . $id .'">';
 			$fadeOut = $this->Js->get('.lang')->effect($options['effectOut']);
 			$removeClasses = '$("#' . $id . ' li").removeClass("active");';
 
